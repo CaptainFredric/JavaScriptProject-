@@ -7,6 +7,25 @@ const searchButton = document.getElementById("searchButton");
 const sortSelect = document.getElementById("sortSelect");
 const statusMessage = document.getElementById("statusMessage");
 const quickPickButtons = document.querySelectorAll("[data-query]");
+const FALLBACK_POSTER = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 445">
+    <defs>
+      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#1a2836" />
+        <stop offset="100%" stop-color="#0c1218" />
+      </linearGradient>
+    </defs>
+    <rect width="300" height="445" fill="url(#bg)" />
+    <circle cx="150" cy="146" r="52" fill="none" stroke="#cfd7df" stroke-width="8" opacity="0.72" />
+    <circle cx="150" cy="146" r="14" fill="#cfd7df" opacity="0.88" />
+    <circle cx="120" cy="116" r="8" fill="#cfd7df" opacity="0.58" />
+    <circle cx="180" cy="116" r="8" fill="#cfd7df" opacity="0.58" />
+    <circle cx="120" cy="176" r="8" fill="#cfd7df" opacity="0.58" />
+    <circle cx="180" cy="176" r="8" fill="#cfd7df" opacity="0.58" />
+    <text x="150" y="286" fill="#f5f7fb" font-family="Arial, sans-serif" font-size="26" font-weight="700" text-anchor="middle">Poster</text>
+    <text x="150" y="320" fill="#93a6b8" font-family="Arial, sans-serif" font-size="20" text-anchor="middle">Not Available</text>
+  </svg>
+`)}`;
 
 let currentMovies = [];
 
@@ -68,11 +87,12 @@ function renderMovies(movies) {
 
 function movieHTML(movie) {
   const poster = movie.Poster === "N/A"
-    ? "https://via.placeholder.com/300x445?text=No+Image"
+    ? FALLBACK_POSTER
     : movie.Poster;
+  const imdbUrl = `https://www.imdb.com/title/${movie.imdbID}/`;
 
   return `
-    <article class="movie-card">
+    <a class="movie-card" href="${imdbUrl}" target="_blank" rel="noopener">
       <img class="movie-card__poster" src="${poster}" alt="Poster for ${movie.Title}">
       <div class="movie-card__info">
         <div class="movie-card__title">${movie.Title}</div>
@@ -80,8 +100,9 @@ function movieHTML(movie) {
           <div class="movie-card__year">${movie.Year}</div>
           <div class="movie-card__type">${movie.Type}</div>
         </div>
+        <div class="movie-card__cta">Open on IMDb</div>
       </div>
-    </article>
+    </a>
   `;
 }
 
