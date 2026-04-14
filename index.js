@@ -6,6 +6,7 @@ const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchButton");
 const sortSelect = document.getElementById("sortSelect");
 const statusMessage = document.getElementById("statusMessage");
+const resultsMeta = document.getElementById("resultsMeta");
 const quickPickButtons = document.querySelectorAll("[data-query]");
 const FALLBACK_POSTER = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 445">
@@ -28,6 +29,45 @@ const FALLBACK_POSTER = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
 `)}`;
 
 let currentMovies = [];
+let currentQuery = "";
+let currentTotalResults = 0;
+
+function setResultsMeta(text) {
+  resultsMeta.textContent = text;
+}
+
+function formatSortLabel(sortType) {
+  if (sortType === "az") {
+    return "A to Z";
+  }
+
+  if (sortType === "za") {
+    return "Z to A";
+  }
+
+  if (sortType === "newest") {
+    return "Newest First";
+  }
+
+  if (sortType === "oldest") {
+    return "Oldest First";
+  }
+
+  return "Best Match";
+}
+
+function dedupeMovies(movies) {
+  const seen = new Set();
+
+  return movies.filter(movie => {
+    if (seen.has(movie.imdbID)) {
+      return false;
+    }
+
+    seen.add(movie.imdbID);
+    return true;
+  });
+}
 
 function renderEmptyState(title, copy) {
   movieGrid.innerHTML = `
@@ -44,32 +84,43 @@ async function searchMovies(query) {
 
   if (!trimmedQuery) {
     currentMovies = [];
+    currentQuery = "";
+    currentTotalResults = 0;
     statusMessage.textContent = "Type a real movie title first. Spaces by themselves do not count.";
+    setResultsMeta("Waiting for Search");
     renderEmptyState("Give the reel a title", "Try a movie name like Batman, Inception, or Spirited Away.");
     return;
   }
 
+  currentQuery = trimmedQuery;
   showSkeletons();
   statusMessage.textContent = `Searching for \"${trimmedQuery}\"...`;
+  setResultsMeta("Loading Results");
 
   try {
     const response = await fetch(`${API_URL}&s=${encodeURIComponent(trimmedQuery)}`);
     const data = await response.json();
 
     if (data.Response === "True") {
-      currentMovies = data.Search.slice(0, 6);
+      currentTotalResults = Number(data.totalResults) || data.Search.length;
+      currentMovies = dedupeMovies(data.Search).slice(0, 6);
       const sortedMovies = sortMovies(currentMovies, sortSelect.value);
       renderMovies(sortedMovies);
       statusMessage.textContent = `Found ${currentMovies.length} movie result${currentMovies.length === 1 ? "" : "s"} for \"${trimmedQuery}\".`;
+      setResultsMeta(`Showing ${currentMovies.length} of ${currentTotalResults}`);
       return;
     }
 
     currentMovies = [];
+    currentTotalResults = 0;
     statusMessage.textContent = `No matches found for \"${trimmedQuery}\".`;
+    setResultsMeta("No Matches");
     renderEmptyState("No results found", "Try a different title or click one of the quick picks above.");
   } catch (error) {
     currentMovies = [];
+    currentTotalResults = 0;
     statusMessage.textContent = "The movie feed could not load right now. Try the search again in a moment.";
+    setResultsMeta("Connection Issue");
     renderEmptyState("Connection issue", "The OMDb request failed before results could be displayed.");
     console.error(error);
   }
@@ -163,7 +214,8 @@ sortSelect.addEventListener("change", () => {
 
   const sortedMovies = sortMovies(currentMovies, sortSelect.value);
   renderMovies(sortedMovies);
-  statusMessage.textContent = `Showing ${sortedMovies.length} sorted movie result${sortedMovies.length === 1 ? "" : "s"}.`;
+  statusMessage.textContent = `Showing ${sortedMovies.length} result${sortedMovies.length === 1 ? "" : "s"} for \"${currentQuery}\" sorted ${formatSortLabel(sortSelect.value)}.`;
+  setResultsMeta(`Sorted: ${formatSortLabel(sortSelect.value)}`);
 });
 
 quickPickButtons.forEach(button => {

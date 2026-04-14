@@ -273,9 +273,28 @@ button {
 }
 
 .hero__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 720px;
   margin-top: 18px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
   color: #c4d2de;
   font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.hero__status::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 0 6px rgba(125, 249, 210, 0.12);
 }
 
 .hero__chips {
@@ -334,6 +353,24 @@ button {
   text-align: right;
 }
 
+.results-panel__meta {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.results-panel__count {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--mint);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -374,6 +411,12 @@ button {
   object-fit: cover;
   display: block;
   background: linear-gradient(180deg, #273341, #111820);
+  transition: transform 0.28s ease, filter 0.28s ease;
+}
+
+.movie-card:hover .movie-card__poster {
+  transform: scale(1.03);
+  filter: saturate(1.04);
 }
 
 .movie-card__info {
@@ -402,6 +445,10 @@ button {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.movie-card__cta::after {
+  content: " ↗";
 }
 
 .movie-card__year {
@@ -571,6 +618,10 @@ button {
   .results-panel__note {
     max-width: none;
     text-align: left;
+  }
+
+  .results-panel__meta {
+    justify-items: start;
   }
 }
 

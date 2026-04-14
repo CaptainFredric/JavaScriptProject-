@@ -5,7 +5,19 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ReelScout is a cinematic movie search app that lets you find, sort, and jump into IMDb results fast using the OMDb API.">
+  <meta name="theme-color" content="#0d1d2d">
+  <meta property="og:title" content="ReelScout">
+  <meta property="og:description" content="Search movies, sort results, and jump straight to IMDb in a polished one-page experience.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://captainfredric.github.io/ReelScout/">
+  <meta property="og:image" content="https://captainfredric.github.io/ReelScout/reelscout-preview.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ReelScout">
+  <meta name="twitter:description" content="A cinematic movie search experience built with vanilla HTML, CSS, and JavaScript.">
+  <meta name="twitter:image" content="https://captainfredric.github.io/ReelScout/reelscout-preview.svg">
   <title>ReelScout</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -48,7 +60,7 @@
           </select>
         </div>
 
-        <p class="hero__status" id="statusMessage">Start with a title and press Enter, or fire off one of the quick picks below.</p>
+        <p class="hero__status" id="statusMessage" aria-live="polite">Start with a title and press Enter, or fire off one of the quick picks below.</p>
 
         <div class="hero__chips" aria-label="Quick search suggestions">
           <button class="hero__chip" type="button" data-query="Batman">Batman</button>
@@ -66,7 +78,10 @@
             <p class="results-panel__eyebrow">Featured Results</p>
             <h2 class="results-panel__title" id="resultsHeading">Top Matches</h2>
           </div>
-          <p class="results-panel__note">Showing up to 6 movie results per search.</p>
+          <div class="results-panel__meta">
+            <p class="results-panel__note">Showing up to 6 movie results per search.</p>
+            <p class="results-panel__count" id="resultsMeta">Ready to search</p>
+          </div>
         </div>
 
         <div class="movie-grid" id="movieGrid">
