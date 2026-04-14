@@ -132,18 +132,18 @@ function renderMovies(movies) {
     return;
   }
 
-  const moviesHTML = movies.map(movie => movieHTML(movie)).join("");
+  const moviesHTML = movies.map((movie, index) => movieHTML(movie, index)).join("");
   movieGrid.innerHTML = moviesHTML;
 }
 
-function movieHTML(movie) {
+function movieHTML(movie, index) {
   const poster = movie.Poster === "N/A"
     ? FALLBACK_POSTER
     : movie.Poster;
   const imdbUrl = `https://www.imdb.com/title/${movie.imdbID}/`;
 
   return `
-    <a class="movie-card" href="${imdbUrl}" target="_blank" rel="noopener">
+    <a class="movie-card" href="${imdbUrl}" target="_blank" rel="noopener" style="--card-index: ${index};">
       <img class="movie-card__poster" src="${poster}" alt="Poster for ${movie.Title}">
       <div class="movie-card__info">
         <div class="movie-card__title">${movie.Title}</div>
