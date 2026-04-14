@@ -24,8 +24,20 @@ let currentMovies = [];
 //  6. Store them in currentMovies
 //  7. Call renderMovies(currentMovies)
 async function searchMovies(query) {
+showSkeletons();
 
+const response = await fetch(`${API_URL}&s=${encodeURIComponent(query)}`);
+const data = await response.json();
+
+if (data.Response === "True"){
+    currentMovies = data.Search.slice(0,6);
 }
+else{
+    currentMovies = [];
+}
+renderMovies(currentMovies);
+}
+
 
 // ── FUNCTION 2: renderMovies ──────────────────────────────────────────────────
 // TODO:
