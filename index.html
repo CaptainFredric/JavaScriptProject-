@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReelScout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero__grain" aria-hidden="true"></div>
+      <div class="hero__orbit" aria-hidden="true">
+        <div class="hero__orbit-line"></div>
+        <div class="hero__reel">
+          <span class="hero__reel-core"></span>
+        </div>
+        <div class="hero__search-glow">
+          <span class="hero__search-icon"></span>
+        </div>
+      </div>
+
+      <div class="hero__content">
+        <p class="hero__eyebrow">OMDb Powered Movie Search</p>
+        <h1 class="hero__title">ReelScout</h1>
+        <p class="hero__subtitle">
+          Chase down cult favorites, blockbuster classics, and hidden gems with a cinematic search experience built for quick browsing.
+        </p>
+
+        <div class="hero__controls">
+          <label class="sr-only" for="searchInput">Search for a movie</label>
+          <div class="hero__search-wrap">
+            <span class="hero__field-icon" aria-hidden="true"></span>
+            <input class="hero__input" id="searchInput" type="text" placeholder="Search movies like Batman, Interstellar, or Coraline">
+            <button class="hero__button" id="searchButton" type="button">Search</button>
+          </div>
+
+          <label class="sr-only" for="sortSelect">Sort movie results</label>
+          <select class="hero__sort" id="sortSelect">
+            <option value="">Sort results</option>
+            <option value="az">Alphabetical A to Z</option>
+            <option value="za">Alphabetical Z to A</option>
+            <option value="newest">Newest to Oldest</option>
+            <option value="oldest">Oldest to Newest</option>
+          </select>
+        </div>
+
+        <p class="hero__status" id="statusMessage">Start with a title and press Enter, or use one of the quick picks below.</p>
+
+        <div class="hero__chips" aria-label="Quick search suggestions">
+          <button class="hero__chip" type="button" data-query="Batman">Batman</button>
+          <button class="hero__chip" type="button" data-query="Inception">Inception</button>
+          <button class="hero__chip" type="button" data-query="Spirited Away">Spirited Away</button>
+          <button class="hero__chip" type="button" data-query="Coraline">Coraline</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="results-panel" aria-labelledby="resultsHeading">
+        <div class="results-panel__header">
+          <div>
+            <p class="results-panel__eyebrow">Featured Results</p>
+            <h2 class="results-panel__title" id="resultsHeading">Top Matches</h2>
+          </div>
+          <p class="results-panel__note">Showing up to 6 movie results per search.</p>
+        </div>
+
+        <div class="movie-grid" id="movieGrid">
+          <article class="empty-state">
+            <div class="empty-state__icon" aria-hidden="true"></div>
+            <h3 class="empty-state__title">Roll the reel</h3>
+            <p class="empty-state__copy">Search for a movie title to reveal your first set of posters.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>ReelScout by Dan DeBugger. Built with vanilla HTML, CSS, JavaScript, and the <a href="https://www.omdbapi.com/" target="_blank" rel="noopener">OMDb API</a>.</p>
+    </footer>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+
+</html>
